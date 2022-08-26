@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AdventOfCode2021.Console
+namespace AdventOfCode2021.Cmd
 {
   class Program
   {

@@ -1,2 +1,7 @@
 AdventOfCode2021/.vs/
 AdventOfCode2021/AdventOfCode2021.Console/obj/
+.vs/
+AdventOfCode2021.Cmd/bin/Debug/netcoreapp3.1/AdventOfCode2021.Cmd.deps.json
+AdventOfCode2021.Cmd/bin/Debug/netcoreapp3.1/AdventOfCode2021.Cmd.dll
+AdventOfCode2021.Cmd/obj/
+AdventOfCode2021.Cmd/bin/
