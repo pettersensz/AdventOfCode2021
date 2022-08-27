@@ -9,8 +9,8 @@ namespace AdventOfCode2021.Cmd
     static void Main(string[] args)
     {
       // Day 1
-      var day1File = File.ReadAllLines(@"C:\kode\AdventOfCode2021\day1\day1_test_input.txt");
-      //var day1File = File.ReadAllLines(@"C:\kode\AdventOfCode2021\day1\day1_input.txt");
+      //var day1File = File.ReadAllLines(@"C:\kode\AdventOfCode2021\day1\day1_test_input.txt");
+      var day1File = File.ReadAllLines(@"C:\kode\AdventOfCode2021\day1\day1_input.txt");
       DetermineNumberOfIncreases(day1File);
       DetermineNumberOfIncreasesUsingSlidingSum(day1File);
       Console.WriteLine("The end...");
@@ -18,37 +18,38 @@ namespace AdventOfCode2021.Cmd
 
     private static void DetermineNumberOfIncreasesUsingSlidingSum(string[] file)
     {
-      var lineCounter = 0;
+      var queue = new Queue<int>(3);
       var sumList = new List<int>();
-      var valueNow = 0;
-      var value1before = 0;
-      var value2before = 0;
-      var currentSum = 0;
+      var currentValue = 0;
+      var lineCounter = 0;
       foreach(var line in file)
       {
-        int.TryParse(line, out valueNow);
         lineCounter++;
-        if (lineCounter == 1) value2before = valueNow;
-        else if (lineCounter == 2) value1before = valueNow;
-        else if (lineCounter == 3)
+        int.TryParse(line, out currentValue);
+        if (lineCounter >= 3)
         {
-          currentSum = valueNow + value1before + value2before;
-          sumList.Add(currentSum);
+          queue.Enqueue(currentValue);
+          var sum = 0;
+          foreach(var item in queue)
+          {
+            sum += item;
+          }
+          sumList.Add(sum);
+
+          queue.Dequeue();
         }
         else
         {
-          // TODO sums are not correct...
-          currentSum = currentSum - value2before + valueNow;
-          sumList.Add(currentSum);
-          value2before = value1before;
-          value1before = valueNow;
+          queue.Enqueue(currentValue);
         }
       }
-      foreach(var sum in sumList)
+      var increaseCounter = 0;
+      for (int i = 1; i < sumList.Count; i++)
       {
-        Console.WriteLine(sum);
+        if (sumList[i] > sumList[i - 1]) increaseCounter++;
       }
-
+      Console.WriteLine(sumList.Count + " sums were analyzed");
+      Console.WriteLine(increaseCounter + " increases were found");
     }
 
     private static void DetermineNumberOfIncreases(string[] file)
