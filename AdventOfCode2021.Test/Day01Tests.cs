@@ -13,9 +13,11 @@ namespace AdventOfCode2021.Test
     [SetUp]
     public void Setup()
     {
-      // TODO Relative file path!
-      _testData = File.ReadAllLines(@"C:\kode\AdventOfCode2021\day1\day1_test_input.txt");
-      _completeData = File.ReadAllLines(@"C:\kode\AdventOfCode2021\day1\day1_input.txt");
+      var directory = Directory.GetCurrentDirectory();
+      var testPath = Path.GetFullPath(Path.Combine(directory, @"..\..\..\..\inputData\day1_test_input.txt"));
+      var completePath = Path.GetFullPath(Path.Combine(directory, @"..\..\..\..\inputData\day1_input.txt"));
+      _testData = File.ReadAllLines(testPath);
+      _completeData = File.ReadAllLines(completePath);
     }
 
     [Test]
