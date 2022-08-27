@@ -23,7 +23,9 @@ namespace AdventOfCode2021.Cmd
       //day3.DetermineLifeSupportRating();
 
       // Day 4
-      var day4 = new Day4("day4_test_input.txt");
+      var day4 = new Day4("day4_input.txt");
+      //day4.Play(Day4.PlayGoal.Win);
+      day4.Play(Day4.PlayGoal.Lose);
 
       Console.WriteLine("The end...");
     }
