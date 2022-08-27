@@ -4,19 +4,20 @@ using System.IO;
 
 namespace AdventOfCode2021.Cmd
 {
-  class Program
+  public class Program
   {
     static void Main(string[] args)
     {
       // Day 1
-      //var day1File = File.ReadAllLines(@"C:\kode\AdventOfCode2021\day1\day1_test_input.txt");
-      var day1File = File.ReadAllLines(@"C:\kode\AdventOfCode2021\day1\day1_input.txt");
+      // TODO Relative file path
+      var day1File = File.ReadAllLines(@"C:\kode\AdventOfCode2021\day1\day1_test_input.txt");
+      //var day1File = File.ReadAllLines(@"C:\kode\AdventOfCode2021\day1\day1_input.txt");
       DetermineNumberOfIncreases(day1File);
       DetermineNumberOfIncreasesUsingSlidingSum(day1File);
       Console.WriteLine("The end...");
     }
 
-    private static void DetermineNumberOfIncreasesUsingSlidingSum(string[] file)
+    public static int DetermineNumberOfIncreasesUsingSlidingSum(string[] file)
     {
       var queue = new Queue<int>(3);
       var sumList = new List<int>();
@@ -43,35 +44,45 @@ namespace AdventOfCode2021.Cmd
           queue.Enqueue(currentValue);
         }
       }
-      var increaseCounter = 0;
-      for (int i = 1; i < sumList.Count; i++)
-      {
-        if (sumList[i] > sumList[i - 1]) increaseCounter++;
-      }
+      var increases = DetermineNumberOfIncreasesInList(sumList);
       Console.WriteLine(sumList.Count + " sums were analyzed");
-      Console.WriteLine(increaseCounter + " increases were found");
+      Console.WriteLine(increases + " increases were found");
+
+      return increases;
     }
 
-    private static void DetermineNumberOfIncreases(string[] file)
+    public static int DetermineNumberOfIncreases(string[] fileData)
     {
-      var lineCounter = 0;
+      var numberList = ConvertFileDataToNumberList(fileData);
+
+      var increases = DetermineNumberOfIncreasesInList(numberList);
+
+      Console.WriteLine(numberList.Count + " lines were read");
+      Console.WriteLine(increases + " increases were found");
+
+      return increases;
+    }
+
+    private static int DetermineNumberOfIncreasesInList(List<int> numberList)
+    {
       var increaseCounter = 0;
-      var currentValue = 0;
-      var previousValue = 0;
-      foreach(var line in file)
+      for (int i = 1; i < numberList.Count; i++)
       {
-        lineCounter++;
-        int.TryParse(line, out currentValue);
-        if (lineCounter != 1)
-        {
-          if (currentValue > previousValue) increaseCounter++;
-        }
-
-        previousValue = currentValue;
+        if (numberList[i] > numberList[i - 1]) increaseCounter++;
       }
+      return increaseCounter;
+    }
 
-      Console.WriteLine(lineCounter + " lines were read");
-      Console.WriteLine(increaseCounter + " increases were found");
+    private static List<int> ConvertFileDataToNumberList(string[] fileData)
+    {
+      var numberList = new List<int>();
+      foreach(var line in fileData)
+      {
+        var currentValue = 0;
+        int.TryParse(line, out currentValue);
+        numberList.Add(currentValue);
+      }
+      return numberList;
     }
   }
 }
