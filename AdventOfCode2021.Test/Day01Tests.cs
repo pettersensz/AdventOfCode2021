@@ -1,8 +1,6 @@
-using AdventOfCode2021.Cmd;
+using AdventOfCode2021.Cmd.Week1.Day1;
 using FluentAssertions;
 using NUnit.Framework;
-using System.IO;
-using AdventOfCode2021.Cmd.Week1.Day1;
 
 namespace AdventOfCode2021.Test
 {

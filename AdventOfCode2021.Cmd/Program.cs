@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using AdventOfCode2021.Cmd.Week1.Day1;
+﻿using AdventOfCode2021.Cmd.Week1.Day1;
+using System;
 
 namespace AdventOfCode2021.Cmd
 {
@@ -20,6 +18,6 @@ namespace AdventOfCode2021.Cmd
       Console.WriteLine("The end...");
     }
 
-    
+
   }
 }
