@@ -9,41 +9,21 @@ namespace AdventOfCode2021.Cmd
     static void Main(string[] args)
     {
       // Day 1
-      // TODO Relative file path
-      var day1File = File.ReadAllLines(@"C:\kode\AdventOfCode2021\day1\day1_test_input.txt");
-      //var day1File = File.ReadAllLines(@"C:\kode\AdventOfCode2021\day1\day1_input.txt");
+
+      var directory = Directory.GetCurrentDirectory();
+      var path = Path.GetFullPath(Path.Combine(directory, @"..\..\..\..\inputData\day1_input.txt"));
+
+      var day1File = File.ReadAllLines(path);
       DetermineNumberOfIncreases(day1File);
       DetermineNumberOfIncreasesUsingSlidingSum(day1File);
       Console.WriteLine("The end...");
     }
 
-    public static int DetermineNumberOfIncreasesUsingSlidingSum(string[] file)
+    public static int DetermineNumberOfIncreasesUsingSlidingSum(string[] fileData)
     {
-      var queue = new Queue<int>(3);
-      var sumList = new List<int>();
-      var currentValue = 0;
-      var lineCounter = 0;
-      foreach(var line in file)
-      {
-        lineCounter++;
-        int.TryParse(line, out currentValue);
-        if (lineCounter >= 3)
-        {
-          queue.Enqueue(currentValue);
-          var sum = 0;
-          foreach(var item in queue)
-          {
-            sum += item;
-          }
-          sumList.Add(sum);
+      var numberList = ConvertFileDataToNumberList(fileData);
+      var sumList = GetListWithSlidingSums(numberList, 3);
 
-          queue.Dequeue();
-        }
-        else
-        {
-          queue.Enqueue(currentValue);
-        }
-      }
       var increases = DetermineNumberOfIncreasesInList(sumList);
       Console.WriteLine(sumList.Count + " sums were analyzed");
       Console.WriteLine(increases + " increases were found");
@@ -61,6 +41,34 @@ namespace AdventOfCode2021.Cmd
       Console.WriteLine(increases + " increases were found");
 
       return increases;
+    }
+
+    private static List<int> GetListWithSlidingSums(List<int> numberList, int interval)
+    {
+      var queue = new Queue<int>(interval);
+      var sumList = new List<int>();
+      var lineCounter = 0;
+      foreach (var currentValue in numberList)
+      {
+        lineCounter++;
+        if (lineCounter >= 3)
+        {
+          queue.Enqueue(currentValue);
+          var sum = 0;
+          foreach (var item in queue)
+          {
+            sum += item;
+          }
+          sumList.Add(sum);
+
+          queue.Dequeue();
+        }
+        else
+        {
+          queue.Enqueue(currentValue);
+        }
+      }
+      return sumList;
     }
 
     private static int DetermineNumberOfIncreasesInList(List<int> numberList)
