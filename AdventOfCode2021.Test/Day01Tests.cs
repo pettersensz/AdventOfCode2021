@@ -1,4 +1,4 @@
-using AdventOfCode2021.Cmd.Week1.Day1;
+using AdventOfCode2021.Cmd.Week1;
 using FluentAssertions;
 using NUnit.Framework;
 

@@ -1,4 +1,4 @@
-﻿using AdventOfCode2021.Cmd.Week1.Day1;
+﻿using AdventOfCode2021.Cmd.Week1;
 using System;
 
 namespace AdventOfCode2021.Cmd
@@ -13,6 +13,8 @@ namespace AdventOfCode2021.Cmd
       day1.DetermineNumberOfIncreasesUsingSlidingSum();
 
       // Day 2
+      var day2 = new Day2("day2_input.txt");
+      day2.DetermineNewPosition();
 
 
       Console.WriteLine("The end...");

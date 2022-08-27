@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace AdventOfCode2021.Cmd.Week1.Day1
+namespace AdventOfCode2021.Cmd.Week1
 {
   public class Day1
   {
-    private readonly string[] _fileData;
     private readonly List<int> _numberList;
     public Day1(string filename)
     {
-      var directory = Directory.GetCurrentDirectory();
-      var path = Path.GetFullPath(Path.Combine(directory, @"..\..\..\..\inputData\" + filename));
-
-      _fileData = File.ReadAllLines(path);
-      _numberList = ConvertFileDataToNumberList(_fileData);
+      var fileData = Common.ReadFile.ReadLinesInTextFile(filename);
+      _numberList = ConvertFileDataToNumberList(fileData);
     }
 
     public int DetermineNumberOfIncreasesUsingSlidingSum()
