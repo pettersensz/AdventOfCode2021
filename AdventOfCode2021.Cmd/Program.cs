@@ -8,15 +8,18 @@ namespace AdventOfCode2021.Cmd
     static void Main(string[] args)
     {
       // Day 1
-      var day1 = new Day1("day1_input.txt");
-      day1.DetermineNumberOfIncreases();
-      day1.DetermineNumberOfIncreasesUsingSlidingSum();
+      //var day1 = new Day1("day1_input.txt");
+      //day1.DetermineNumberOfIncreases();
+      //day1.DetermineNumberOfIncreasesUsingSlidingSum();
 
       // Day 2
-      var day2 = new Day2("day2_input.txt");
-      day2.DetermineNewPosition();
-      day2.DetermineNewPositionWithAim();
+      //var day2 = new Day2("day2_input.txt");
+      //day2.DetermineNewPosition();
+      //day2.DetermineNewPositionWithAim();
 
+      // Day 3
+      var day3 = new Day3("day3_input.txt");
+      day3.DeterminePowerConsumption();
 
       Console.WriteLine("The end...");
     }
