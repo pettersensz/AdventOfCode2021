@@ -43,6 +43,7 @@ namespace AdventOfCode2021.Cmd.Week1
 
     internal void DetermineLifeSupportRating()
     {
+      Console.WriteLine("Day 3 Part 2 Life Support Rating");
       var oxygenGeneratorRating = DetermineOxygenGeneratorRating();
       var scrubberRating = DetermineScrubberRating();
       
@@ -52,20 +53,54 @@ namespace AdventOfCode2021.Cmd.Week1
 
     private int DetermineScrubberRating()
     {
-      return 1;
+      var workArray = _fileData;
+      for (var i = 0; i < _fileData[0].Length; i++)
+      {
+        var zeroCount = DetermineBitCountAtIndex("0", i, workArray);
+        var oneCount = DetermineBitCountAtIndex("1", i, workArray);
+        var leastCommonBit = zeroCount <= oneCount ? 0 : 1;
+        workArray = GetUpdatedArray(workArray, leastCommonBit, i);
+        Console.WriteLine("Index " + i + ", least common bit: " + leastCommonBit + ", result:");
+        foreach (var s in workArray)
+        {
+          Console.WriteLine(s);
+        }
+
+        if (workArray.Length != 1) continue;
+        Console.WriteLine("Only one number left");
+        Console.WriteLine(workArray[0]);
+        break;
+      }
+      var scrubberRating = Convert.ToInt32(workArray[0], 2);
+      Console.WriteLine("CO2 Scrubber Rating: " + scrubberRating);
+      return scrubberRating;
     }
 
     private int DetermineOxygenGeneratorRating()
     {
-      // start only with first bit
-      var zeroCount = DetermineBitCountAtIndex("0", 0, _fileData);
-      var oneCount = DetermineBitCountAtIndex("1", 0, _fileData);
-      int mostCommonBit;
-      if (zeroCount > oneCount) mostCommonBit = 0;
-      else mostCommonBit = 1;
-      var updatedArray = GetUpdatedArray(_fileData, mostCommonBit, 0);
+      var workArray = _fileData;
+      for (var i = 0; i < _fileData[0].Length; i++)
+      {
+        var zeroCount = DetermineBitCountAtIndex("0", i, workArray);
+        var oneCount = DetermineBitCountAtIndex("1", i, workArray);
+        var mostCommonBit = zeroCount > oneCount ? 0 : 1;
+        workArray= GetUpdatedArray(workArray, mostCommonBit, i);
+        Console.WriteLine("Index " + i +", most common bit: " + mostCommonBit + ", result:");
+        foreach (var s in workArray)
+        {
+          Console.WriteLine(s);
+        }
 
-      return 9;
+        if (workArray.Length == 1)
+        {
+          Console.WriteLine("Only one number left");
+          Console.WriteLine(workArray[0]);
+          break;
+        }
+      }
+      var oxygenGeneratorRating = Convert.ToInt32(workArray[0], 2);
+      Console.WriteLine("Oxygen Generator Rating: " + oxygenGeneratorRating);
+      return oxygenGeneratorRating;
     }
 
     private string[] GetUpdatedArray(string[] inputData, int mostCommonBit, int index)
