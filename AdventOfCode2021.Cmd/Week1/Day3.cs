@@ -41,18 +41,60 @@ namespace AdventOfCode2021.Cmd.Week1
       Console.WriteLine(powerConsumption);
     }
 
-
-    private int DetermineMostCommonBit(int position)
+    internal void DetermineLifeSupportRating()
     {
-      var zeroCount = 0;
-      var oneCount = 0;
-      foreach (var line in _fileData)
+      var oxygenGeneratorRating = DetermineOxygenGeneratorRating();
+      var scrubberRating = DetermineScrubberRating();
+      
+      var lifeSupportRating = oxygenGeneratorRating * scrubberRating;
+      Console.WriteLine("Life Support Rating: " + lifeSupportRating);
+    }
+
+    private int DetermineScrubberRating()
+    {
+      return 1;
+    }
+
+    private int DetermineOxygenGeneratorRating()
+    {
+      // start only with first bit
+      var zeroCount = DetermineBitCountAtIndex("0", 0, _fileData);
+      var oneCount = DetermineBitCountAtIndex("1", 0, _fileData);
+      int mostCommonBit;
+      if (zeroCount > oneCount) mostCommonBit = 0;
+      else mostCommonBit = 1;
+      var updatedArray = GetUpdatedArray(_fileData, mostCommonBit, 0);
+
+      return 9;
+    }
+
+    private string[] GetUpdatedArray(string[] inputData, int mostCommonBit, int index)
+    {
+      var tempList = new List<string>();
+      foreach(var line in inputData)
       {
-        if (line.Substring(position, 1) == "0") zeroCount++;
-        else if(line.Substring(position,1) == "1") oneCount++;
+        if (line.Substring(index, 1) == mostCommonBit.ToString()) tempList.Add(line);
       }
+      var newArray = tempList.ToArray();
+      return newArray;
+    }
+
+    private int DetermineMostCommonBit(int index)
+    {
+      var zeroCount = DetermineBitCountAtIndex("0", index, _fileData);
+      var oneCount = DetermineBitCountAtIndex("1", index, _fileData);
 
       return zeroCount > oneCount ? 0 : 1;
+    }
+
+    private int DetermineBitCountAtIndex(string bitAsString, int index, string[] dataLines)
+    {
+      var count = 0;
+      foreach(var line in dataLines)
+      {
+        if (line.Substring(index, 1) == bitAsString) count++;
+      }
+      return count;
     }
   }
 }

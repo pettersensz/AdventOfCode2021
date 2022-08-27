@@ -18,8 +18,9 @@ namespace AdventOfCode2021.Cmd
       //day2.DetermineNewPositionWithAim();
 
       // Day 3
-      var day3 = new Day3("day3_input.txt");
+      var day3 = new Day3("day3_test_input.txt");
       day3.DeterminePowerConsumption();
+      day3.DetermineLifeSupportRating();
 
       Console.WriteLine("The end...");
     }
