@@ -49,7 +49,7 @@ namespace AdventOfCode2021.Cmd.Week1
       }
     }
 
-    public void DetermineNewPosition()
+    public int DetermineNewPosition()
     {
       var horizontalPosition = 0;
       var verticalPosition = 0;
@@ -73,9 +73,10 @@ namespace AdventOfCode2021.Cmd.Week1
       }
       var product = horizontalPosition * Math.Abs(verticalPosition);
       Console.WriteLine("Product: " + product);
+      return product;
     }
 
-    public void DetermineNewPositionWithAim()
+    public int DetermineNewPositionWithAim()
     {
       var horizontalPosition = 0;
       var verticalPosition = 0;
@@ -90,11 +91,9 @@ namespace AdventOfCode2021.Cmd.Week1
             verticalPosition -= aim * command.Amount;
             break;
           case CommandDirection.Down:
-            //verticalPosition -= command.Amount;
             aim += command.Amount;
             break;
           case CommandDirection.Up:
-            //verticalPosition += command.Amount;
             aim -= command.Amount;
             break;
         }
@@ -103,6 +102,7 @@ namespace AdventOfCode2021.Cmd.Week1
       }
       var product = horizontalPosition * Math.Abs(verticalPosition);
       Console.WriteLine("Product: " + product);
+      return product;
     }
   }
 

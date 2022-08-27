@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace AdventOfCode2021.Test
 {
-  public class Tests
+  public class Day01Tests
   {
     private Day1 _day1Test;
     private Day1 _day1Complete;

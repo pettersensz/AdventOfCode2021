@@ -13,13 +13,12 @@ namespace AdventOfCode2021.Cmd.Week1
       _fileData = Common.ReadFile.ReadLinesInTextFile(filename);
     }
 
-    public void DeterminePowerConsumption()
+    public int DeterminePowerConsumption()
     {
-      var numberOfBits = _fileData[0].Length;
       var uncommonBit = 0;
       var commonBinaryNumber = "";
       var uncommonBinaryNumber = "";
-      for (var i = 0; i < numberOfBits; i++)
+      for (var i = 0; i < _fileData[0].Length; i++)
       {
         var commonBit = DetermineMostCommonBit(i);
         if (commonBit == 0) uncommonBit = 1;
@@ -39,28 +38,51 @@ namespace AdventOfCode2021.Cmd.Week1
       Console.WriteLine("Power Consumption");
       var powerConsumption = value * uncommonValue;
       Console.WriteLine(powerConsumption);
+      return powerConsumption;
     }
 
-    internal void DetermineLifeSupportRating()
+    public int DetermineLifeSupportRating()
     {
       Console.WriteLine("Day 3 Part 2 Life Support Rating");
-      var oxygenGeneratorRating = DetermineOxygenGeneratorRating();
-      var scrubberRating = DetermineScrubberRating();
+      var oxygenGeneratorRating = DetermineRating(RatingType.OxygenGenerator);
+      var scrubberRating = DetermineRating(RatingType.Scrubber);
       
       var lifeSupportRating = oxygenGeneratorRating * scrubberRating;
       Console.WriteLine("Life Support Rating: " + lifeSupportRating);
+      return lifeSupportRating;
+    }
+    
+    private enum RatingType
+    {
+      OxygenGenerator,
+      Scrubber
     }
 
-    private int DetermineScrubberRating()
+    private int DetermineBitForArrayReduction(int zeroCount, int oneCount, RatingType ratingType)
+    {
+      if (ratingType == RatingType.Scrubber)
+      {
+        return zeroCount <= oneCount ? 0 : 1;
+      }
+
+      if (ratingType == RatingType.OxygenGenerator)
+      {
+        return zeroCount > oneCount ? 0 : 1;
+      }
+
+      return 9;
+    }
+
+    private int DetermineRating(RatingType ratingType)
     {
       var workArray = _fileData;
       for (var i = 0; i < _fileData[0].Length; i++)
       {
         var zeroCount = DetermineBitCountAtIndex("0", i, workArray);
         var oneCount = DetermineBitCountAtIndex("1", i, workArray);
-        var leastCommonBit = zeroCount <= oneCount ? 0 : 1;
-        workArray = GetUpdatedArray(workArray, leastCommonBit, i);
-        Console.WriteLine("Index " + i + ", least common bit: " + leastCommonBit + ", result:");
+        var valueToKeep = DetermineBitForArrayReduction(zeroCount, oneCount, ratingType);
+        workArray = GetUpdatedArray(workArray, valueToKeep, i);
+        Console.WriteLine("Index " + i + ", keeping values with value: " + valueToKeep + ", result:");
         foreach (var s in workArray)
         {
           Console.WriteLine(s);
@@ -71,36 +93,9 @@ namespace AdventOfCode2021.Cmd.Week1
         Console.WriteLine(workArray[0]);
         break;
       }
-      var scrubberRating = Convert.ToInt32(workArray[0], 2);
-      Console.WriteLine("CO2 Scrubber Rating: " + scrubberRating);
-      return scrubberRating;
-    }
-
-    private int DetermineOxygenGeneratorRating()
-    {
-      var workArray = _fileData;
-      for (var i = 0; i < _fileData[0].Length; i++)
-      {
-        var zeroCount = DetermineBitCountAtIndex("0", i, workArray);
-        var oneCount = DetermineBitCountAtIndex("1", i, workArray);
-        var mostCommonBit = zeroCount > oneCount ? 0 : 1;
-        workArray= GetUpdatedArray(workArray, mostCommonBit, i);
-        Console.WriteLine("Index " + i +", most common bit: " + mostCommonBit + ", result:");
-        foreach (var s in workArray)
-        {
-          Console.WriteLine(s);
-        }
-
-        if (workArray.Length == 1)
-        {
-          Console.WriteLine("Only one number left");
-          Console.WriteLine(workArray[0]);
-          break;
-        }
-      }
-      var oxygenGeneratorRating = Convert.ToInt32(workArray[0], 2);
-      Console.WriteLine("Oxygen Generator Rating: " + oxygenGeneratorRating);
-      return oxygenGeneratorRating;
+      var rating = Convert.ToInt32(workArray[0], 2);
+      Console.WriteLine("Rating: " + rating);
+      return rating;
     }
 
     private string[] GetUpdatedArray(string[] inputData, int mostCommonBit, int index)
