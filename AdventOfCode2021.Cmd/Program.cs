@@ -15,6 +15,7 @@ namespace AdventOfCode2021.Cmd
       // Day 2
       var day2 = new Day2("day2_input.txt");
       day2.DetermineNewPosition();
+      day2.DetermineNewPositionWithAim();
 
 
       Console.WriteLine("The end...");

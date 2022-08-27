@@ -77,6 +77,35 @@ namespace AdventOfCode2021.Cmd.Week1
       Console.WriteLine("Product: " + product);
     }
 
+    public void DetermineNewPositionWithAim()
+    {
+      var horizontalPosition = 0;
+      var verticalPosition = 0;
+      var aim = 0;
+      Console.WriteLine("Start: " + horizontalPosition + ", " + verticalPosition);
+      foreach (var command in _commandList)
+      {
+        switch (command.Direction)
+        {
+          case CommandDirection.Forward:
+            horizontalPosition += command.Amount;
+            verticalPosition -= aim * command.Amount;
+            break;
+          case CommandDirection.Down:
+            //verticalPosition -= command.Amount;
+            aim += command.Amount;
+            break;
+          case CommandDirection.Up:
+            //verticalPosition += command.Amount;
+            aim -= command.Amount;
+            break;
+        }
+
+        Console.WriteLine("Move: " + horizontalPosition + ", " + verticalPosition);
+      }
+      var product = horizontalPosition * Math.Abs(verticalPosition);
+      Console.WriteLine("Product: " + product);
+    }
   }
 
   internal class Day2Command
