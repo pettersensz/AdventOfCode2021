@@ -2,41 +2,39 @@ using AdventOfCode2021.Cmd;
 using FluentAssertions;
 using NUnit.Framework;
 using System.IO;
+using AdventOfCode2021.Cmd.Week1.Day1;
 
 namespace AdventOfCode2021.Test
 {
   public class Tests
   {
-    private string[] _testData;
-    private string[] _completeData;
+    private Day1 _day1Test;
+    private Day1 _day1Complete;
 
     [SetUp]
     public void Setup()
     {
-      var directory = Directory.GetCurrentDirectory();
-      var testPath = Path.GetFullPath(Path.Combine(directory, @"..\..\..\..\inputData\day1_test_input.txt"));
-      var completePath = Path.GetFullPath(Path.Combine(directory, @"..\..\..\..\inputData\day1_input.txt"));
-      _testData = File.ReadAllLines(testPath);
-      _completeData = File.ReadAllLines(completePath);
+      _day1Test = new Day1("day1_test_input.txt");
+      _day1Complete = new Day1("day1_input.txt");
     }
 
     [Test]
     public void TestNumberOfIncreases()
     {
-      var result = Program.DetermineNumberOfIncreases(_testData);
-      result.Should().Be(7);
+      var testResult = _day1Test.DetermineNumberOfIncreases();
+      testResult.Should().Be(7);
 
-      var completeResult = Program.DetermineNumberOfIncreases(_completeData);
+      var completeResult = _day1Complete.DetermineNumberOfIncreases();
       completeResult.Should().Be(1228);
     }
 
     [Test]
     public void TestSlidingSumIncreases()
     {
-      var result = Program.DetermineNumberOfIncreasesUsingSlidingSum(_testData);
-      result.Should().Be(5);
+      var testResult = _day1Test.DetermineNumberOfIncreasesUsingSlidingSum();
+      testResult.Should().Be(5);
 
-      var completeResult = Program.DetermineNumberOfIncreasesUsingSlidingSum(_completeData);
+      var completeResult = _day1Complete.DetermineNumberOfIncreasesUsingSlidingSum();
       completeResult.Should().Be(1257);
     }
   }
