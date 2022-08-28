@@ -30,8 +30,16 @@ namespace AdventOfCode2021.Cmd.Week1
 
     public void SimulateFishGrowth(int daysToSimulate)
     {
+      Console.Write("Initial state: ");
+      foreach (var fish in _fishList)
+      {
+        if(_fishList.IndexOf(fish) == _fishList.Count - 1) Console.Write(fish.Timer);
+        else Console.Write(fish.Timer + ",");
+      }
       for (var day = 0; day < daysToSimulate; day++)
       {
+        // TODO Can't do this, collection will change which breaks the loop
+        // Maybe do Age operation on the list and return a new list which can contain added fish
         foreach (var fish in _fishList)
         {
           bool newFish = fish.Age();
