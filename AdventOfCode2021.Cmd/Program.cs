@@ -28,7 +28,11 @@ namespace AdventOfCode2021.Cmd
       //day4.Play(Day4.PlayGoal.Lose);
 
       // Day 5
-      var day5 = new Day5("day5_input.txt");
+      //var day5 = new Day5("day5_input.txt");
+
+      // Day 6
+      var day6 = new Day6("day6_test_input.txt");
+      day6.SimulateFishGrowth(18);
 
 
       Console.WriteLine("The end...");
