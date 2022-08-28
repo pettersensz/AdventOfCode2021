@@ -75,18 +75,27 @@ namespace AdventOfCode2021.Cmd.Week1
         SetDrawnStatusOnBoards(numberFromQueue);
         //PrintBoards();
         winningBoard = CheckForCompleteRowsOrColumns();
-        if (winningBoard != null)
+        while (winningBoard != null)
         {
           Console.WriteLine("We have a winner: " + winningBoard.Name);
-          if(goal == PlayGoal.Win) break;
+          if (goal == PlayGoal.Win)
+          {
+            //Ensure we break out of for loop by setting i higher than limit
+            i = rounds + 1;
+            break;
+          }
           if (goal == PlayGoal.Lose)
           {
             if (_boardList.Count == 1)
             {
+              //Ensure we break out of for loop by setting i higher than limit
+              i = rounds + 1;
               break;
             }
             Console.WriteLine("Removing " + winningBoard.Name);
             _boardList.Remove(winningBoard);
+            Console.WriteLine("Checking for further winning boards");
+            winningBoard = CheckForCompleteRowsOrColumns();
           }
         }
       }
