@@ -27,7 +27,8 @@ namespace AdventOfCode2021.Cmd.Week1
 
       var grid = new Grid(xMax, yMax);
 
-      AssignValuesToGrid(grid);
+      //AssignValuesToGrid(grid);
+      AssignValuesToGrid(grid, false);
 
       //PrintGrid(grid);
 
@@ -50,11 +51,11 @@ namespace AdventOfCode2021.Cmd.Week1
       return counter;
     }
 
-    private void AssignValuesToGrid(Grid grid)
+    private void AssignValuesToGrid(Grid grid, bool ignoreDiagonalLines = true)
     {
       foreach (var line in _lines)
       {
-        if(line.LineType == LineType.Diagonal) continue;
+        if(ignoreDiagonalLines && line.LineType == LineType.Diagonal) continue;
         foreach (var coordinate in line.Coordinates)
         {
           var currentValue = grid.Rows[coordinate.Y][coordinate.X];
@@ -123,8 +124,65 @@ namespace AdventOfCode2021.Cmd.Week1
       }
       else
       {
-        LineType = LineType.Diagonal;
+        AddDiagonalCoordinates(startCoordinate, endCoordinate);
       }
+    }
+
+    private void AddDiagonalCoordinates(Coordinate startCoordinate, Coordinate endCoordinate)
+    {
+      LineType = LineType.Diagonal;
+      Coordinates.Add(startCoordinate);
+
+      // ++
+      if (endCoordinate.X > startCoordinate.X && endCoordinate.Y > startCoordinate.Y)
+      {
+        for (var x = startCoordinate.X + 1; x < endCoordinate.X; x++)
+        {
+          for (var y = startCoordinate.Y + 1; y < endCoordinate.Y; y++)
+          {
+            Coordinates.Add(new Coordinate(x,y));
+            x++;
+          }
+        }
+      }
+      // --
+      else if (endCoordinate.X < startCoordinate.X && endCoordinate.Y < startCoordinate.Y)
+      {
+        for (var x = startCoordinate.X - 1; x > endCoordinate.X; x--)
+        {
+          for (var y = startCoordinate.Y - 1; y > endCoordinate.Y; y--)
+          {
+            Coordinates.Add(new Coordinate(x, y));
+            x--;
+          }
+        }
+      }
+      // -+
+      else if (endCoordinate.X < startCoordinate.X && endCoordinate.Y > startCoordinate.Y)
+      {
+        for (var x = startCoordinate.X - 1; x > endCoordinate.X; x--)
+        {
+          for (var y = startCoordinate.Y + 1; y < endCoordinate.Y; y++)
+          {
+            Coordinates.Add(new Coordinate(x, y));
+            x--;
+          }
+        }
+      }
+      // +-
+      else if (endCoordinate.X > startCoordinate.X && endCoordinate.Y < startCoordinate.Y)
+      {
+        for (var x = startCoordinate.X + 1; x < endCoordinate.X; x++)
+        {
+          for (var y = startCoordinate.Y - 1; y > endCoordinate.Y; y--)
+          {
+            Coordinates.Add(new Coordinate(x, y));
+            x++;
+          }
+        }
+      }
+
+      Coordinates.Add(endCoordinate);
     }
 
     private void AddHorizontalCoordinates(Coordinate startCoordinate, Coordinate endCoordinate)
