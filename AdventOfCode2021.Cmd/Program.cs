@@ -1,5 +1,6 @@
 ﻿using AdventOfCode2021.Cmd.Week1;
 using System;
+using AdventOfCode2021.Cmd.Week2;
 
 namespace AdventOfCode2021.Cmd
 {
@@ -36,8 +37,11 @@ namespace AdventOfCode2021.Cmd
       //day6.SimulateFishGrowthEfficient(256);
 
       // Day 7
-      var day7 = new Day7("day7_input.txt");
+      //var day7 = new Day7("day7_input.txt");
 
+      // Day 8
+      var day8 = new Day8("day8_input.txt");
+      day8.FindUniqueOutputNumberCount();
 
       Console.WriteLine("The end...");
     }
