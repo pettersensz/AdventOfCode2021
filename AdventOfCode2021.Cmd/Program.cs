@@ -31,9 +31,12 @@ namespace AdventOfCode2021.Cmd
       //var day5 = new Day5("day5_input.txt");
 
       // Day 6
-      var day6 = new Day6("day6_input.txt");
+      //var day6 = new Day6("day6_input.txt");
       //day6.SimulateFishGrowth(256);
-      day6.SimulateFishGrowthEfficient(256);
+      //day6.SimulateFishGrowthEfficient(256);
+
+      // Day 7
+      var day7 = new Day7("day7_input.txt");
 
 
       Console.WriteLine("The end...");
