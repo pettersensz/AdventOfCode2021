@@ -83,5 +83,89 @@ namespace AdventOfCode2021.Cmd.Week2
 
       return count;
     }
+
+    public void DetermineSumOfOutputValues()
+    {
+      var sum = 0;
+      for (var i = 0; i < _outputList.Count; i++)
+      {
+        var outputList = _outputList[i];
+        // First need to determine how digits are encoded based on input...
+        Console.WriteLine("Entry " + i );
+        FigureOutHowItWorks(_inputList[_outputList.IndexOf(outputList)]);
+        sum += DetermineSumOfOutputList(outputList);
+      }
+      Console.WriteLine($"Total sum: {sum}");
+    }
+
+    private void FigureOutHowItWorks(List<string> inputList)
+    {
+      
+      foreach (var input in inputList)
+      {
+        var digit = 22;
+        if (input.Length == 2) digit = 1;
+
+        Console.WriteLine(digit + " is written: " + input);
+      }
+    }
+
+    private int DetermineSumOfOutputList(List<string> outputList)
+    {
+      var number = 0;
+      var numberOfDigits = outputList.Count;
+      for (var i = 0; i < numberOfDigits; i++)
+      {
+        var entry = outputList[i];
+        var digit = 0;
+        switch (entry.Length)
+        {
+          case 2:
+            digit = 1;
+            break;
+          case 3:
+            digit = 7;
+            break;
+          case 4:
+            digit = 4;
+            break;
+          case 7:
+            digit = 8;
+            break;
+          default:
+            if (entry.Length == 6) // 0 or 9 or 6
+            {
+              if (!entry.Contains('f')) digit = 0;
+              else if (!entry.Contains('g')) digit = 9;
+              else if (!entry.Contains('a')) digit = 6;
+            }
+            else if (entry.Length == 5) // 5 or 2 or 3
+            {
+              if (!entry.Contains('e') && !entry.Contains('g')) digit = 3;
+              else if (!entry.Contains('e')) digit = 2;
+              else digit = 5;
+            }
+            break;
+        }
+
+
+        switch (i)
+        {
+          case 0:
+            digit = digit * 1000;
+            break;
+          case 1:
+            digit = digit * 100;
+            break;
+          case 2:
+            digit = digit * 10;
+            break;
+        }
+
+        number += digit;
+      }
+
+      return number;
+    }
   }
 }
