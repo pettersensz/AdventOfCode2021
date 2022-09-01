@@ -72,11 +72,13 @@ namespace AdventOfCode2021.Cmd.Week2
 
     private Basin DetermineBasinSize(MapPoint lowPoint)
     {
+      Console.WriteLine("New basin around " + lowPoint.GetKeyString());
       var basin = new Basin()
       {
         Points = new Dictionary<string, MapPoint>()
       };
       basin.AddPoint(lowPoint);
+      Console.WriteLine("Point: " + lowPoint.ToString());
       var neighbours = GetBasinNeighbourListForPoint(lowPoint);
       foreach (var neighbour in neighbours)
       {
@@ -89,6 +91,7 @@ namespace AdventOfCode2021.Cmd.Week2
     {
       List<MapPoint> neighbours;
       basin.AddPoint(neighbour);
+      Console.WriteLine("Neighbour: " + neighbour.ToString());
       neighbours = GetBasinNeighbourListForPoint(neighbour);
       foreach (var newNeighbour in neighbours)
       {
@@ -173,6 +176,16 @@ namespace AdventOfCode2021.Cmd.Week2
       Y = y;
       Height = height;
     }
+
+    public override string ToString()
+    {
+      return "(" + GetKeyString() + ") " + Height;
+    }
+
+    public string GetKeyString()
+    {
+      return Y.ToString() + "," + X.ToString();
+    }
   }
 
   public class Basin
@@ -181,7 +194,7 @@ namespace AdventOfCode2021.Cmd.Week2
 
     public bool AddPoint(MapPoint point)
     {
-      var keyString = GetKeyString(point);
+      var keyString = point.GetKeyString();
       if (Points.ContainsKey(keyString)) return false;
       Points.Add(keyString, point);
       return true;
@@ -189,14 +202,10 @@ namespace AdventOfCode2021.Cmd.Week2
 
     public bool Contains(MapPoint point)
     {
-      var keyString = GetKeyString(point);
+      var keyString = point.GetKeyString(); ;
       if (Points.ContainsKey(keyString)) return true;
       return false;
     }
 
-    private string GetKeyString(MapPoint point)
-    {
-      return point.Y.ToString() + "," + point.X.ToString();
-    }
   }
 }
