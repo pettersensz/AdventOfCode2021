@@ -10,7 +10,7 @@ namespace AdventOfCode2021.Cmd.Week2
     {
       var data = Common.ReadFile.ReadLinesInTextFile(filename);
 
-      var grid = new Day11Grid();
+      var grid = new Day11Grid(10);
       var y = 0;
       foreach (var line in data)
       {
@@ -18,23 +18,41 @@ namespace AdventOfCode2021.Cmd.Week2
         var elements = line.ToCharArray();
         foreach (var element in elements)
         {
-          grid.GridValues.Add(x.ToString() + "," + y.ToString(), int.Parse(element.ToString()));
+          grid.Levels[x][y] = int.Parse(element.ToString());
           x++;
         }
         y++;
       }
+
+      Console.WriteLine("Initial Grid");
+      PrintGrid(grid);
     }
 
-
+    private void PrintGrid(Day11Grid grid)
+    {
+      for (var y = 0; y < grid.Levels.Length; y++)
+      {
+        for (var x = 0; x < grid.Levels[y].Length; x++)
+        {
+          Console.Write(grid.Levels[x][y]);
+        }
+        Console.Write("\n");
+      }
+      Console.WriteLine("---- ---- ---- ----");
+    }
   }
 
   public class Day11Grid
   {
-    public Dictionary<string, int> GridValues;
+    public int[][] Levels;
 
-    public Day11Grid()
+    public Day11Grid(int size)
     {
-      GridValues = new Dictionary<string, int>();
+      Levels = new int[size][];
+      for (var i = 0; i < size; i++)
+      {
+        Levels[i] = new int[size];
+      }
     }
 
   }
