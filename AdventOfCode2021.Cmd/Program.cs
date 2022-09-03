@@ -45,7 +45,7 @@ namespace AdventOfCode2021.Cmd
       //day8.DetermineSumOfOutputValues();
 
       // Day 9
-      var day9 = new Day9("day9_test_input.txt");
+      var day9 = new Day9("day9_input.txt");
       day9.CalculateSumOfRiskLevels();
 
       Console.WriteLine("The end...");
