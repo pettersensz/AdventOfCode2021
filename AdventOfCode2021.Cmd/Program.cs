@@ -50,6 +50,7 @@ namespace AdventOfCode2021.Cmd
 
       // Day 10
       var day10 = new Day10("day10_input.txt");
+      day10.CompleteTheLines();
 
       // Day 11
       //var day11 = new Day11("day11_test_input.txt");
