@@ -40,9 +40,13 @@ namespace AdventOfCode2021.Cmd
       //var day7 = new Day7("day7_input.txt");
 
       // Day 8
-      var day8 = new Day8("day8_input.txt");
+      //var day8 = new Day8("day8_test_input.txt");
       //day8.FindUniqueOutputNumberCount();
-      day8.DetermineSumOfOutputValues();
+      //day8.DetermineSumOfOutputValues();
+
+      // Day 9
+      var day9 = new Day9("day9_input.txt");
+      day9.CalculateSumOfRiskLevels();
 
       Console.WriteLine("The end...");
     }
