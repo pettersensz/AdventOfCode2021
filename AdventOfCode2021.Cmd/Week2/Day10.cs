@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AdventOfCode2021.Cmd.Week2
 {
@@ -14,8 +12,10 @@ namespace AdventOfCode2021.Cmd.Week2
     public Day10(string fileName)
     {
       var data = Common.ReadFile.ReadLinesInTextFile(fileName);
-      for (var i = 0; i < 1; i++)
+      var badCharacters = new List<char>();
+      for (var i = 0; i < data.Length; i++)
       {
+        var badLine = false;
         var line = data[i].ToCharArray();
         var chunkStack = new Stack<char>();
         foreach (var c in line)
@@ -27,10 +27,31 @@ namespace AdventOfCode2021.Cmd.Week2
           else if (_allowedClosingChars.Contains(c))
           {
             var openingChar = chunkStack.Pop();
-            var indexOpening = Array.IndexOf(openingChar, )
+            var indexOpening = Array.IndexOf(_allowedOpeningChars, openingChar);
+            var indexClosing = Array.IndexOf(_allowedClosingChars, c);
+            if (indexOpening != indexClosing)
+            {
+              badLine = true;
+              badCharacters.Add(c);
+              break;
+            }
           }
         }
+
+        if (badLine)
+        {
+          Console.WriteLine($"Line with index {i} is corrupted!");
+        }
       }
+      var score = 0;
+      foreach (var badCharacter in badCharacters)
+      {
+        if (badCharacter == ')') score += 3;
+        else if (badCharacter == ']') score += 57;
+        else if (badCharacter == '}') score += 1197;
+        else if (badCharacter == '>') score += 25137;
+      }
+      Console.WriteLine("Total score: " + score);
     }
   }
 }

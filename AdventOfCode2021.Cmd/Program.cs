@@ -49,10 +49,10 @@ namespace AdventOfCode2021.Cmd
       //day9.CalculateSumOfRiskLevels();
 
       // Day 10
-      var day10 = new Day10("day10_test_input.txt");
+      var day10 = new Day10("day10_input.txt");
 
       // Day 11
-      var day11 = new Day11("day11_test_input.txt");
+      //var day11 = new Day11("day11_test_input.txt");
 
       Console.WriteLine("The end...");
     }
