@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AdventOfCode2021.Cmd.Week2
 {
@@ -21,7 +20,6 @@ namespace AdventOfCode2021.Cmd.Week2
         var elements = line.ToCharArray();
         foreach (var element in elements)
         {
-          //_grid.Levels[x][y] = int.Parse(element.ToString());
           _dict.AddPoint(x, y, int.Parse(element.ToString()));
           x++;
         }
@@ -29,37 +27,28 @@ namespace AdventOfCode2021.Cmd.Week2
       }
 
       Console.WriteLine("Initial Grid");
-      //PrintGrid(_grid);
-      PrintDict(_dict);
+      PrintDict();
     }
 
-    private void PrintDict(Day11Dict dict)
+    private void PrintDict()
     {
       for (var y = 0; y < _gridSize; y++)
       {
         for (var x = 0; x < _gridSize; x++)
         {
-          Console.Write(dict.GetPoint(x,y));
+          var value = _dict.GetPoint(x, y);
+          if (value == 0) Console.ForegroundColor = ConsoleColor.Red;
+          Console.Write(value);
+          Console.ForegroundColor = ConsoleColor.White;
         }
         Console.Write("\n");
       }
     }
 
-    private void PrintGrid(Day11Grid grid)
-    {
-      for (var y = 0; y < grid.Levels.Length; y++)
-      {
-        for (var x = 0; x < grid.Levels[y].Length; x++)
-        {
-          Console.Write(grid.Levels[x][y]);
-        }
-        Console.Write("\n");
-      }
-      //Console.WriteLine("---- ---- ---- ----");
-    }
 
     public void DoSteps(int numberOfSteps)
     {
+      var totalPops = 0;
       for (var step = 1; step <= numberOfSteps; step++)
       {
         // Do initial step up
@@ -68,7 +57,7 @@ namespace AdventOfCode2021.Cmd.Week2
         {
           for (var x = 0; x < _gridSize; x++)
           {
-            var oldValue = _dict.GetPoint(x,y);
+            var oldValue = _dict.GetPoint(x, y);
             var newValue = oldValue + 1;
             if (newValue > 9)
             {
@@ -76,38 +65,63 @@ namespace AdventOfCode2021.Cmd.Week2
               numberOfPops++;
             }
 
-            _grid.Levels[x][y] = newValue;
+            _dict.UpdatePoint(x, y, newValue);
           }
         }
-        Console.WriteLine("After initial step:");
-        PrintGrid(_grid);
+        //Console.WriteLine("After initial step:");
+        //PrintDict();
 
-        var totalPops = numberOfPops;
+        var popsInStep = numberOfPops;
         // Increase neighbors
         while (numberOfPops > 0)
         {
           numberOfPops = IncreaseNeigborValues();
-          totalPops += numberOfPops;
+          popsInStep += numberOfPops;
+          //Console.WriteLine("POP");
+          //PrintDict();
         }
 
+        ResetPoppedPoints();
+
         Console.WriteLine($"After step {step}:");
-        PrintGrid(_grid);
-        Console.WriteLine("Number of pops: " + totalPops);
+        PrintDict();
+        Console.WriteLine("Number of pops: " + popsInStep);
+        totalPops += popsInStep;
+      }
+      Console.WriteLine("Total Pops: " + totalPops);
+    }
+
+    private void ResetPoppedPoints()
+    {
+      for (var y = 0; y < _gridSize; y++)
+      {
+        for (var x = 0; x < _gridSize; x++)
+        {
+          if (_dict.GetPoint(x, y) == -1)
+          {
+            _dict.IncreasePoint(x, y);
+          }
+        }
       }
     }
 
     private int CountNumberOfPops()
     {
       var numberOfPops = 0;
-      for (var y = 0; y < _grid.Levels.Length; y++)
+      for (var y = 0; y < _gridSize; y++)
       {
-        for (var x = 0; x < _grid.Levels[y].Length; x++)
+        for (var x = 0; x < _gridSize; x++)
         {
-          var value = _grid.Levels[x][y];
+          var value = _dict.GetPoint(x, y);
           if (value > 9)
           {
-            _grid.Levels[x][y] = 0;
+            _dict.UpdatePoint(x, y, 0);
             numberOfPops++;
+          }
+          else if (value == 0)
+          {
+            // Set already popped points to -1 so they don't pop neighbors multiple times
+            _dict.UpdatePoint(x, y, -1);
           }
         }
       }
@@ -118,21 +132,21 @@ namespace AdventOfCode2021.Cmd.Week2
     private int IncreaseNeigborValues()
     {
       // Increase all neighbors for all zeroes
-      for (var y = 0; y < _grid.Levels.Length; y++)
+      for (var y = 0; y < _gridSize; y++)
       {
-        for (var x = 0; x < _grid.Levels[y].Length; x++)
+        for (var x = 0; x < _gridSize; x++)
         {
-          var oldValue = _grid.Levels[x][y];
+          var oldValue = _dict.GetPoint(x, y);
           if (oldValue == 0)
           {
-            if (x < _grid.Levels[y].Length - 1) if (_grid.Levels[x + 1][y] != 0) _grid.Levels[x + 1][y] += 1;
-            if (x > 0) if (_grid.Levels[x-1][y] != 0) _grid.Levels[x - 1][y] += 1;
-            if (y > 0) if(_grid.Levels[x][y - 1] != 0) _grid.Levels[x][y - 1] += 1;
-            if (y < _grid.Levels.Length - 1) if (_grid.Levels[x][y + 1] != 0) _grid.Levels[x][y + 1] += 1;
-            if (x > 0 && y > 0) if(_grid.Levels[x - 1][y - 1] != 0) _grid.Levels[x - 1][y - 1] += 1;
-            if (x < _grid.Levels[y].Length - 1 && y < _grid.Levels.Length - 1) if(_grid.Levels[x + 1][y + 1] != 0) _grid.Levels[x + 1][y + 1] += 1;
-            if (x > 0 && y < _grid.Levels.Length - 1) if(_grid.Levels[x - 1][y + 1] != 0) _grid.Levels[x - 1][y + 1] += 1;
-            if (x < _grid.Levels[y].Length - 1 && y > 0) if(_grid.Levels[x + 1][y - 1] != 0) _grid.Levels[x + 1][y - 1] += 1;
+            if (x < _gridSize - 1 && !_dict.PointHasPopped(x + 1, y)) _dict.IncreasePoint(x + 1, y);
+            if (x > 0 && !_dict.PointHasPopped(x - 1, y)) _dict.IncreasePoint(x - 1, y);
+            if (y > 0 && !_dict.PointHasPopped(x, y - 1)) _dict.IncreasePoint(x, y - 1);
+            if (y < _gridSize - 1 && !_dict.PointHasPopped(x, y + 1)) _dict.IncreasePoint(x, y + 1);
+            if (x > 0 && y > 0 && !_dict.PointHasPopped(x - 1, y - 1)) _dict.IncreasePoint(x - 1, y - 1);
+            if (x < _gridSize - 1 && y < _gridSize - 1 && !_dict.PointHasPopped(x + 1, y + 1)) _dict.IncreasePoint(x + 1, y + 1);
+            if (x > 0 && y < _gridSize - 1 && !_dict.PointHasPopped(x - 1, y + 1)) _dict.IncreasePoint(x - 1, y + 1);
+            if (x < _gridSize - 1 && y > 0 && !_dict.PointHasPopped(x + 1, y - 1)) _dict.IncreasePoint(x + 1, y - 1);
           }
         }
       }
@@ -141,22 +155,6 @@ namespace AdventOfCode2021.Cmd.Week2
       return numberOfPops;
     }
   }
-
-  public class Day11Grid
-  {
-    public int[][] Levels;
-
-    public Day11Grid(int size)
-    {
-      Levels = new int[size][];
-      for (var i = 0; i < size; i++)
-      {
-        Levels[i] = new int[size];
-      }
-    }
-
-  }
-
 
   public class Day11Dict
   {
@@ -188,6 +186,23 @@ namespace AdventOfCode2021.Cmd.Week2
       if (!Levels.ContainsKey(key)) return false;
       Levels[key] = value;
       return true;
+    }
+
+    public bool IncreasePoint(int x, int y)
+    {
+      var key = GetCoordString(x, y);
+      if (!Levels.ContainsKey(key)) return false;
+      var newValue = Levels[key] + 1;
+      Levels[key] = newValue;
+      return true;
+    }
+
+    public bool PointHasPopped(int x, int y)
+    {
+      var key = GetCoordString(x, y);
+      if (Levels[key] == 0) return true;
+      if (Levels[key] == -1) return true;
+      return false;
     }
 
     private string GetCoordString(int x, int y)
