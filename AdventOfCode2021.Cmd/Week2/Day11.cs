@@ -49,6 +49,7 @@ namespace AdventOfCode2021.Cmd.Week2
     public void DoSteps(int numberOfSteps)
     {
       var totalPops = 0;
+      var fullFlashStep = 0;
       for (var step = 1; step <= numberOfSteps; step++)
       {
         // Do initial step up
@@ -86,9 +87,16 @@ namespace AdventOfCode2021.Cmd.Week2
         Console.WriteLine($"After step {step}:");
         PrintDict();
         Console.WriteLine("Number of pops: " + popsInStep);
+        if (popsInStep == 100)
+        {
+          Console.WriteLine("FULL FLASH");
+          fullFlashStep = step;
+          break;
+        }
         totalPops += popsInStep;
       }
       Console.WriteLine("Total Pops: " + totalPops);
+      Console.WriteLine("Full flash step: " + fullFlashStep);
     }
 
     private void ResetPoppedPoints()

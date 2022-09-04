@@ -54,7 +54,7 @@ namespace AdventOfCode2021.Cmd
 
       // Day 11
       var day11 = new Day11("day11_input.txt", 10);
-      day11.DoSteps(100);
+      day11.DoSteps(1000);
 
       Console.WriteLine("The end...");
     }
