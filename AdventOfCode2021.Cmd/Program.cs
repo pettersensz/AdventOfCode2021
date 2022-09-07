@@ -53,8 +53,11 @@ namespace AdventOfCode2021.Cmd
       //day10.CompleteTheLines();
 
       // Day 11
-      var day11 = new Day11("day11_input.txt", 10);
-      day11.DoSteps(1000);
+      //var day11 = new Day11("day11_input.txt", 10);
+      //day11.DoSteps(1000);
+
+      // Day 12
+      var day12 = new Day12("day12_test_input_1.txt");
 
       Console.WriteLine("The end...");
     }
